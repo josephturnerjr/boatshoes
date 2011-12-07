@@ -2,11 +2,11 @@
 
 from distutils.core import setup
 
-setup(name='crindy',
+setup(name='boatshoes',
       version='1.0',
-      description='Crindy: dead-simple eventloop programming for Python',
+      description='Boatshoes: handy utilities for creating Unix services',
       author='Joseph Turner',
       author_email='turner@miserware.com',
-      url='https://github.com/josephturnerjr/crindy',
+      url='https://github.com/josephturnerjr/boatshoes',
       packages=['boatshoes'],
      )

@@ -1,6 +1,7 @@
 import re
 import os
 import pwd
+import grp
 
 
 """
@@ -42,7 +43,7 @@ def ch_file(filename, username=None, groupname=None, mode=None):
     if username:
         uid = pwd.getpwnam(username)[2]
     if groupname:
-        gid = pwd.getgrnam(groupname)[2]
+        gid = grp.getgrnam(groupname)[2]
     os.chown(filename, uid, gid)
     if mode:
         os.chmod(filename, mode)
