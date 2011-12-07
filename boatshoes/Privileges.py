@@ -37,7 +37,7 @@ def get_int_mode(mode, current_mode = 0):
                 return 0
 """
 
-def ch_file(self, filename, username=None, groupname=None, mode=None):
+def ch_file(filename, username=None, groupname=None, mode=None):
     uid = gid = -1
     if username:
         uid = pwd.getpwnam(username)[2]
@@ -47,7 +47,7 @@ def ch_file(self, filename, username=None, groupname=None, mode=None):
     if mode:
         os.chmod(filename, mode)
         
-def drop_priv(self, username):
+def drop_priv(username):
     pwd_entry = pwd.getpwnam(username)
     os.setgid(pwd_entry[3])
     os.setuid(pwd_entry[2])
