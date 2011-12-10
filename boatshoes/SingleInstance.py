@@ -23,7 +23,7 @@ class SingleInstance(object):
             fd = os.open(lockfile, os.O_RDWR|os.O_CREAT, 0644)
         except OSError, e:
             if e.errno == errno.EACCES:
-                raise PidPermissionError("Permission denied when tryong to "
+                raise PidPermissionError("Permission denied when trying to "
                                          "open the pidfile.")
             raise SingleInstanceError("Couldn't open lockfile %s: %s" % 
                                       (lockfile, e.strerror))
