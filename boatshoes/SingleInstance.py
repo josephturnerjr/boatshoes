@@ -5,6 +5,9 @@ import errno
 class SingleInstanceError(Exception):
     pass
 
+class PidPermissionError(Exception):
+    pass
+
 class RunningInstanceError(Exception):
     pass
 
@@ -19,6 +22,9 @@ class SingleInstance(object):
             #   with the right mode.
             fd = os.open(lockfile, os.O_RDWR|os.O_CREAT, 0644)
         except OSError, e:
+            if e.errno == errno.EACCES:
+                raise PidPermissionError("Permission denied when tryong to "
+                                         "open the pidfile. Are you root?")
             raise SingleInstanceError("Couldn't open lockfile %s: %s" % 
                                       (lockfile, e.strerror))
         # Lock the lockfile
