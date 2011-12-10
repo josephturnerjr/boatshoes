@@ -24,7 +24,7 @@ class SingleInstance(object):
         except OSError, e:
             if e.errno == errno.EACCES:
                 raise PidPermissionError("Permission denied when tryong to "
-                                         "open the pidfile. Are you root?")
+                                         "open the pidfile.")
             raise SingleInstanceError("Couldn't open lockfile %s: %s" % 
                                       (lockfile, e.strerror))
         # Lock the lockfile
