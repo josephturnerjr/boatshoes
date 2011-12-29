@@ -6,11 +6,13 @@ sys.path.append(os.path.join(os.path.split(__file__)[0], '..'))
 from boatshoes.SingleInstance import SingleInstance, RunningInstanceError
 from multiprocessing import Process
 
+
 def create_si(name):
     try:
-        s = SingleInstance(name)
-    except RunningInstanceError, e:
+        SingleInstance(name)
+    except RunningInstanceError:
         sys.exit(66)
+
 
 class TestSingleInstance(unittest.TestCase):
     def setUp(self):

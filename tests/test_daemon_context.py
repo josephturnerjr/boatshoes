@@ -4,6 +4,7 @@ import os.path
 sys.path.append(os.path.join(os.path.split(__file__)[0], '..'))
 from boatshoes.DaemonContext import DaemonContext
 
+
 class TestDaemonContext(unittest.TestCase):
     def setUp(self):
         pass
@@ -12,7 +13,7 @@ class TestDaemonContext(unittest.TestCase):
         try:
             with DaemonContext(True) as dc:
                 # only the child makes it in
-                print "yep" # won't be printed
+                print dc  # won't be printed
         except SystemExit, e:
             self.assertTrue(e.code == 0)
 
@@ -20,7 +21,7 @@ class TestDaemonContext(unittest.TestCase):
         try:
             with DaemonContext(True) as dc:
                 # only the child makes it in
-                print "yep" # won't be printed
+                print "yep"  # won't be printed
                 dc.return_value = -1
         except SystemExit, e:
             self.assertTrue(e.code == -1)

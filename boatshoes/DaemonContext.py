@@ -1,11 +1,12 @@
 import os
-import resource 
+import resource
 import ctypes
 import sys
 
 
 class DaemonError(Exception):
     pass
+
 
 class DaemonContext(object):
     def __init__(self, do_daemon):
@@ -14,9 +15,10 @@ class DaemonContext(object):
         if self.do_daemon:
             # Create the notification pipe
             try:
-                self.parent_pipe, self.child_pipe = os.pipe() 
+                self.parent_pipe, self.child_pipe = os.pipe()
             except:
-                raise DaemonError("Couldn't create pipe for startup notification")
+                raise DaemonError("Couldn't create pipe for startup "
+                                  "notification")
 
             # Set the file creation mask
             os.umask(0)
@@ -35,7 +37,8 @@ class DaemonContext(object):
                 raise DaemonError("Couldn't fork daemon process")
 
             if pid != 0:
-                # If we're the parent, stick around so we can print/return errors
+                # If we're the parent, stick around so we can print/return
+                #   errors
                 os.close(self.child_pipe)
                 # TODO: there should be a timeout here, probably
                 child_status = ""
@@ -45,17 +48,19 @@ class DaemonContext(object):
                     while len(child_status) < byte_len:
                         child_status += os.read(self.parent_pipe, byte_len)
                     # Cast the returned by string to an int
-                    exit_status = ctypes.cast(ctypes.create_string_buffer(child_status), 
-                                       ctypes.POINTER(ctypes.c_int))[0]
+                    b = ctypes.create_string_buffer(child_status),
+                    p = ctypes.POINTER(ctypes.c_int)
+                    exit_status = ctypes.cast(b, p)[0]
                 except:
                     exit_status = -1
-                # Because the parent never leaves __enter__, __exit__ will never get called
+                # Because the parent never leaves __enter__, __exit__ will
+                #   never get called
                 sys.exit(exit_status)
             else:
                 os.close(self.parent_pipe)
 
             try:
-                os.chdir("/") 
+                os.chdir("/")
             except:
                 self.write_status(-1)
                 raise DaemonError("Error changing directory to /")
@@ -78,7 +83,8 @@ class DaemonContext(object):
                sys.stdout.fileno() != 1 or
                sys.stderr.fileno() != 2):
                 self.write_status(-1)
-                raise DaemonError("Error redirecting standard input/output/error.  Exiting.")
+                raise DaemonError("Error redirecting standard "
+                                  "input/output/error. Exiting.")
         return self
 
     def __exit__(self, type, value, tb):
