@@ -48,7 +48,7 @@ class DaemonContext(object):
                     while len(child_status) < byte_len:
                         child_status += os.read(self.parent_pipe, byte_len)
                     # Cast the returned by string to an int
-                    b = ctypes.create_string_buffer(child_status),
+                    b = ctypes.create_string_buffer(child_status)
                     p = ctypes.POINTER(ctypes.c_int)
                     exit_status = ctypes.cast(b, p)[0]
                 except:
